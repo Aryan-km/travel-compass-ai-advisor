@@ -1,11 +1,9 @@
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 
 const HeroSection = ({ onChatClick }: { onChatClick: () => void }) => {
   return (
     <div className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
-      {/* Background image */}
       <div 
         className="absolute inset-0 z-0 bg-cover bg-center" 
         style={{ 
@@ -27,7 +25,7 @@ const HeroSection = ({ onChatClick }: { onChatClick: () => void }) => {
           <Button 
             onClick={onChatClick} 
             size="lg" 
-            className="text-lg px-8 py-6 bg-white text-blue-600 hover:bg-blue-50 animate-scale-in"
+            className="text-lg px-8 py-6 main-gradient hover:bg-blue-50 animate-scale-in"
           >
             Chat with Advisor
           </Button>
