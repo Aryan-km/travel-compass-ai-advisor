@@ -5,25 +5,30 @@ import { Button } from "@/components/ui/button";
 import ChatInterface from "./ChatInterface";
 import { cn } from "@/lib/utils";
 
-const FloatingChatButton = () => {
-  const [isOpen, setIsOpen] = useState(false);
+interface FloatingChatButtonProps {
+  initialOpen?: boolean;
+}
+
+const FloatingChatButton = ({ initialOpen = false }: FloatingChatButtonProps) => {
+  const [isOpen, setIsOpen] = useState(initialOpen);
 
   return (
     <>
       {isOpen && (
-        <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm animate-fade-in">
-          <div className="fixed inset-4 z-50 bg-background rounded-lg shadow-lg border animate-scale-up overflow-hidden">
-            <div className="absolute top-4 right-4">
+        <div className="fixed inset-0 z-50 bg-background animate-fade-in">
+          <div className="fixed inset-0 z-50 flex flex-col h-full">
+            <div className="flex items-center justify-between p-4 border-b">
+              <h2 className="text-2xl font-bold text-gradient">Travel Insurance Advisor</h2>
               <Button
                 onClick={() => setIsOpen(false)}
                 variant="ghost"
                 size="icon"
-                className="rounded-full hover:bg-destructive hover:text-destructive-foreground"
+                className="rounded-full hover:bg-destructive/10 hover:text-destructive"
               >
                 <X className="h-6 w-6" />
               </Button>
             </div>
-            <div className="p-6 h-full pt-14">
+            <div className="flex-1 overflow-hidden p-4">
               <ChatInterface />
             </div>
           </div>
