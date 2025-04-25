@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from "react";
 import { Send } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -6,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import ReactMarkdown from 'react-markdown';
 
 interface Message {
   id: string;
@@ -33,7 +33,20 @@ const ChatInterface = ({ formData }: ChatInterfaceProps) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
-  // Scroll to bottom of chat when messages change
+  const renderMessage = (content: string) => {
+    return (
+      <ReactMarkdown
+        components={{
+          strong: ({ node, ...props }) => (
+            <span className="font-bold bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent" {...props} />
+          ),
+        }}
+      >
+        {content.replace(/\*\*/g, '__')}
+      </ReactMarkdown>
+    );
+  };
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -96,7 +109,6 @@ const ChatInterface = ({ formData }: ChatInterfaceProps) => {
 
   return (
     <div className="flex flex-col h-full">
-      {/* Chat Messages */}
       <div className="flex-1 overflow-y-auto mb-4 space-y-4 pr-1">
         {messages.map((message) => (
           <div
@@ -115,7 +127,7 @@ const ChatInterface = ({ formData }: ChatInterfaceProps) => {
               )}
             >
               <CardContent className="p-3">
-                {message.content}
+                {renderMessage(message.content)}
               </CardContent>
             </Card>
           </div>
@@ -123,7 +135,6 @@ const ChatInterface = ({ formData }: ChatInterfaceProps) => {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input Area */}
       <div className="mt-auto">
         <div className="flex items-center space-x-2">
           <Input

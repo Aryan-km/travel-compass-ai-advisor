@@ -15,9 +15,9 @@ const FloatingChatButton = ({ initialOpen = false }: FloatingChatButtonProps) =>
   return (
     <>
       {isOpen && (
-        <div className="fixed inset-0 z-50 bg-background animate-fade-in">
-          <div className="fixed inset-0 z-50 flex flex-col h-full">
-            <div className="flex items-center justify-between p-4 border-b">
+        <div className="fixed inset-0 z-50 bg-background/95 backdrop-blur-sm animate-fade-in">
+          <div className="fixed inset-0 z-50 flex flex-col h-full max-w-4xl mx-auto">
+            <div className="flex items-center justify-between p-4 border-b bg-background/50">
               <h2 className="text-2xl font-bold text-gradient">Travel Insurance Advisor</h2>
               <Button
                 onClick={() => setIsOpen(false)}
