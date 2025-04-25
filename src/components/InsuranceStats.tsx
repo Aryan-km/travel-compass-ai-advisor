@@ -17,7 +17,7 @@ const Stat = ({ title, value, description }: StatProps) => (
 
 const InsuranceStats = () => {
   return (
-    <Card className="card-gradient">
+    <Card className="card-gradient hover:scale-[1.02] transition-transform duration-300">
       <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
         <Stat
           title="Protected Travelers"

@@ -1,6 +1,6 @@
 
 import React, { useState, useRef, useEffect } from "react";
-import { Send, User } from "lucide-react";
+import { Send } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -33,10 +33,6 @@ const ChatInterface = ({ formData }: ChatInterfaceProps) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
-  // Add API key state (to be entered by user)
-  const [apiKey, setApiKey] = useState("");
-  const [showApiKeyInput, setShowApiKeyInput] = useState(false);
-
   // Scroll to bottom of chat when messages change
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -45,18 +41,6 @@ const ChatInterface = ({ formData }: ChatInterfaceProps) => {
   const handleSendMessage = async () => {
     if (!input.trim()) return;
 
-    // Check if API key is set
-    if (!apiKey) {
-      setShowApiKeyInput(true);
-      toast({
-        title: "API Key Required",
-        description: "Please enter your Gemini API key to continue.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    // Add user message
     const userMessage: Message = {
       id: Date.now().toString(),
       role: "user",
@@ -68,29 +52,6 @@ const ChatInterface = ({ formData }: ChatInterfaceProps) => {
     setIsLoading(true);
 
     try {
-      // Prepare context from form data
-      let context = "";
-      if (formData) {
-        context = `
-          User travel details:
-          Destination: ${formData.destination || "Not specified"}
-          Age range: ${formData.age || "Not specified"}
-          Trip duration: ${formData.duration || "Not specified"}
-          Budget preference: ${formData.budget || "Not specified"}
-          Travel dates: ${
-            formData.departureDate && formData.returnDate
-              ? `${formData.departureDate.toLocaleDateString()} - ${formData.returnDate.toLocaleDateString()}`
-              : "Not specified"
-          }
-          Selected add-ons: ${
-            formData.addOns?.length > 0
-              ? formData.addOns.join(", ")
-              : "None"
-          }
-        `;
-      }
-
-      // Send request to Gemini API
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: {
@@ -98,8 +59,7 @@ const ChatInterface = ({ formData }: ChatInterfaceProps) => {
         },
         body: JSON.stringify({
           message: input,
-          context,
-          apiKey,
+          context: formData ? JSON.stringify(formData) : "",
         }),
       });
 
@@ -108,8 +68,6 @@ const ChatInterface = ({ formData }: ChatInterfaceProps) => {
       }
 
       const data = await response.json();
-
-      // Add AI response
       const aiMessage: Message = {
         id: Date.now().toString(),
         role: "ai",
@@ -121,22 +79,9 @@ const ChatInterface = ({ formData }: ChatInterfaceProps) => {
       console.error("Error:", error);
       toast({
         title: "Error",
-        description:
-          "Failed to get a response. Please check your API key and try again.",
+        description: "Failed to get a response. Please try again later.",
         variant: "destructive",
       });
-      
-      // Add error message
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: Date.now().toString(),
-          role: "ai",
-          content:
-            "I'm sorry, but I encountered an error processing your request. Please check your API key or try again later.",
-          timestamp: new Date(),
-        },
-      ]);
     } finally {
       setIsLoading(false);
     }
@@ -151,32 +96,6 @@ const ChatInterface = ({ formData }: ChatInterfaceProps) => {
 
   return (
     <div className="flex flex-col h-full">
-      {/* API Key Input */}
-      {showApiKeyInput && (
-        <div className="mb-4 p-3 border rounded-md animate-fade-in card-gradient">
-          <h3 className="text-sm font-medium mb-2">Enter Gemini API Key</h3>
-          <div className="flex gap-2">
-            <Input
-              type="password"
-              placeholder="API Key"
-              value={apiKey}
-              onChange={(e) => setApiKey(e.target.value)}
-              className="flex-1"
-            />
-            <Button
-              size="sm"
-              onClick={() => setShowApiKeyInput(false)}
-              disabled={!apiKey}
-            >
-              Save
-            </Button>
-          </div>
-          <p className="text-xs text-muted-foreground mt-1">
-            Your API key is stored locally and never sent to our servers.
-          </p>
-        </div>
-      )}
-
       {/* Chat Messages */}
       <div className="flex-1 overflow-y-auto mb-4 space-y-4 pr-1">
         {messages.map((message) => (
@@ -207,14 +126,6 @@ const ChatInterface = ({ formData }: ChatInterfaceProps) => {
       {/* Input Area */}
       <div className="mt-auto">
         <div className="flex items-center space-x-2">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => setShowApiKeyInput(true)}
-            className="flex-shrink-0"
-          >
-            <User className="h-4 w-4" />
-          </Button>
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}

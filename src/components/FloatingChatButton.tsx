@@ -9,25 +9,39 @@ const FloatingChatButton = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <>
       {isOpen && (
-        <div className="absolute bottom-16 right-0 w-[400px] h-[600px] card-gradient rounded-lg shadow-lg animate-fade-in">
-          <div className="p-4 h-full">
-            <ChatInterface />
+        <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm animate-fade-in">
+          <div className="fixed inset-4 z-50 bg-background rounded-lg shadow-lg border animate-scale-up overflow-hidden">
+            <div className="absolute top-4 right-4">
+              <Button
+                onClick={() => setIsOpen(false)}
+                variant="ghost"
+                size="icon"
+                className="rounded-full hover:bg-destructive hover:text-destructive-foreground"
+              >
+                <X className="h-6 w-6" />
+              </Button>
+            </div>
+            <div className="p-6 h-full pt-14">
+              <ChatInterface />
+            </div>
           </div>
         </div>
       )}
-      <Button
-        onClick={() => setIsOpen(!isOpen)}
-        size="lg"
-        className={cn(
-          "rounded-full w-14 h-14 main-gradient shadow-lg transition-transform hover:scale-105",
-          isOpen && "bg-destructive hover:bg-destructive"
-        )}
-      >
-        {isOpen ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
-      </Button>
-    </div>
+      <div className="fixed bottom-6 right-6 z-50">
+        <Button
+          onClick={() => setIsOpen(!isOpen)}
+          size="lg"
+          className={cn(
+            "rounded-full w-14 h-14 main-gradient shadow-lg transition-transform hover:scale-105",
+            isOpen && "bg-destructive hover:bg-destructive"
+          )}
+        >
+          {isOpen ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
+        </Button>
+      </div>
+    </>
   );
 };
 
