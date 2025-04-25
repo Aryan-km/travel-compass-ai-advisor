@@ -1,73 +1,56 @@
-# Welcome to your Lovable project
 
-## Project info
+# Travel Compass AI Advisor
 
-**URL**: https://lovable.dev/projects/5c30375d-a191-498e-88be-ccc0a5811f1a
+An AI-powered travel insurance advisor application that helps users find the best insurance plans based on their travel needs.
 
-## How can I edit this code?
+## Features
 
-There are several ways of editing your application.
+- Modern, responsive UI with gradient themes and smooth animations
+- Light/dark mode toggle
+- Interactive travel preferences form
+  - Destination selection
+  - Trip duration
+  - Age range
+  - Budget preferences
+  - Departure and return date pickers
+  - Insurance add-on toggles
+- Dynamic insurance summary with cost estimations
+- AI-powered chat interface using Google's Gemini API
 
-**Use Lovable**
+## Setup and Usage
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/5c30375d-a191-498e-88be-ccc0a5811f1a) and start prompting.
+1. Clone this repository
+2. Install dependencies: `npm install`
+3. Start the development server: `npm run dev`
+4. Open your browser and navigate to `http://localhost:8080`
 
-Changes made via Lovable will be committed automatically to this repo.
+## Using the Chatbot
 
-**Use your preferred IDE**
+To use the AI chatbot functionality:
+1. You'll need a Google Gemini API key
+2. When you first attempt to send a message, you'll be prompted to enter your API key
+3. Enter your API key and click "Save"
+4. The API key is stored only in your browser's local storage and is never sent to our servers
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Tech Stack
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- React with TypeScript
+- Tailwind CSS for styling
+- shadcn/ui for UI components
+- Vite for fast development
+- Google Gemini API for AI responses
 
-Follow these steps:
+## Development
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### Backend Integration
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+In a production environment, you would need to:
 
-# Step 3: Install the necessary dependencies.
-npm i
+1. Set up a Node.js/Express backend server
+2. Use the provided `src/server/api/chat.js` file as a reference for your API endpoint
+3. Configure proper API key management and security measures
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+## License
 
-**Edit a file directly in GitHub**
+This project is for demonstration purposes only.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/5c30375d-a191-498e-88be-ccc0a5811f1a) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
