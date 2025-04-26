@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from "react";
 import { Send } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -6,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import ReactMarkdown from 'react-markdown';
+import { sendChatRequest } from "@/api";
 
 interface Message {
   id: string;
@@ -65,22 +67,14 @@ const ChatInterface = ({ formData }: ChatInterfaceProps) => {
     setIsLoading(true);
 
     try {
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          message: input,
-          context: formData ? JSON.stringify(formData) : "",
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to get response from AI");
-      }
-
-      const data = await response.json();
+      // Use our updated sendChatRequest function
+      const apiKey = "YOUR_GEMINI_API_KEY"; // This is a placeholder, user will replace it later
+      const data = await sendChatRequest(
+        input, 
+        formData ? JSON.stringify(formData) : "", 
+        apiKey
+      );
+      
       const aiMessage: Message = {
         id: Date.now().toString(),
         role: "ai",
